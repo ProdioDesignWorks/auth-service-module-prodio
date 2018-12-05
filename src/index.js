@@ -4,7 +4,7 @@ const axios = require('axios');
 const HttpErrors = require('http-errors');
 const CircularJSON = require('circular-json');
 
-const { REGISTERACCOUNT, VERIFYTOKEN, REGENERATETOKEN, LOGIN,
+const { REGISTERACCOUNT, VERIFYTOKEN, GENERATETOKEN, LOGIN,
   LISTACCOUNTS, FORGOTPASSWORD, RESETPASSWORD, CHANGEPASSWORD, DELETEACCOUNT
 } = require('./config/constant.js');
 
@@ -44,7 +44,7 @@ function authModule(BASE_URL) {
       return registerAccount(payload, BASE_URL, callback);
     } else if (payload.action === VERIFYTOKEN) {
       return verifyToken(BASE_URL, callback);
-    } else if (payload.action === REGENERATETOKEN) {
+    } else if (payload.action === GENERATETOKEN) {
       return regenerateToken(payload, BASE_URL, callback);
     } else if (payload.action === LOGIN) {
       return login(payload, BASE_URL, callback);
