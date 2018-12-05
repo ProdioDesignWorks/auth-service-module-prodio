@@ -1,5 +1,5 @@
 {
-  "name": "auth-module-prodio",
+  "name": "auth-service-module-prodio",
   "version": "1.0.0",
   "description": "NPM for consuming prodio auth service",
   "main": "lib/index.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ProdioDesignWorks/auth-module-prodio.git"
+    "url": "git+https://github.com/ProdioDesignWorks/auth-service-module-prodio.git"
   },
   "keywords": [
     "auth",
@@ -28,9 +28,9 @@
   "author": "Vatsal Shah <vatsal@prodio.in> (http://prodio.in/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ProdioDesignWorks/auth-module-prodio/issues"
+    "url": "https://github.com/ProdioDesignWorks/auth-service-module-prodio/issues"
   },
-  "homepage": "https://github.com/ProdioDesignWorks/auth-module-prodio#readme",
+  "homepage": "https://github.com/ProdioDesignWorks/auth-service-module-prodio#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "circular-json": "^0.5.9",

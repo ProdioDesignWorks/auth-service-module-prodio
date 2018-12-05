@@ -1,9 +1,9 @@
-# auth-module-prodio
+# auth-service-module-prodio
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 
-`auth-module-prodio` is an  node js client for the  `auth-service-prodio API`. Integrate in to any application to perform auth releted user journeys.
+`auth-service-module-prodio` is an  node js client for the  `auth-service-prodio API`. Integrate in to any application to perform auth releted user journeys.
 
 # Features!
   
@@ -35,7 +35,7 @@ $ npm install auth-module-prodio --save
 Require the auth-module-prodio module and initialize the notificationSdk client.
 ```JSX
 
- const auth = require('auth-module-prodio');
+ const auth = require('auth-service-module-prodio');
  const authModule = new auth("API BASE PATH OF AUTH SERVICE");//http://domainname:3005/api
  ``` 
 
