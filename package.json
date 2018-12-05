@@ -1,0 +1,51 @@
+{
+  "name": "auth-module-prodio",
+  "version": "1.0.0",
+  "description": "NPM for consuming prodio auth service",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": ". scripts/build.sh",
+    "lint": "eslint --ext .js .",
+    "lintfix": "eslint --fix --ext .js .",
+    "prepublishOnly": "npm run build"
+  },
+  "pre-commit": {
+    "colors": true,
+    "run": [
+      "lint",
+      "test"
+    ],
+    "silent": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProdioDesignWorks/auth-module-prodio.git"
+  },
+  "keywords": [
+    "auth",
+    "prodio"
+  ],
+  "author": "Vatsal Shah <vatsal@prodio.in> (http://prodio.in/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ProdioDesignWorks/auth-module-prodio/issues"
+  },
+  "homepage": "https://github.com/ProdioDesignWorks/auth-module-prodio#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "circular-json": "^0.5.9",
+    "http-errors": "^1.7.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^5.7.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-security": "^1.4.0"
+  }
+}
