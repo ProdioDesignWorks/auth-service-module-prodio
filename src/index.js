@@ -40,30 +40,32 @@ const isJson = (str) => {
 }
 
 function authModule(BASE_URL) {
+  this.BASE_URL = BASE_URL;
+
   this.execute = function (payload, callback) {
     // action key calls api.
     if (payload.action === REGISTERACCOUNT) {
-      return registerAccount(payload, BASE_URL, callback);
+      return registerAccount(payload, this.BASE_URL, callback);
     } else if (payload.action === VERIFYTOKEN) {
-      return verifyToken(payload, BASE_URL, callback);
+      return verifyToken(payload, this.BASE_URL, callback);
     } else if (payload.action === GENERATETOKEN) {
-      return regenerateToken(payload, BASE_URL, callback);
+      return regenerateToken(payload, this.BASE_URL, callback);
     } else if (payload.action === LOGIN) {
-      return login(payload, BASE_URL, callback);
+      return login(payload, this.BASE_URL, callback);
     } else if (payload.action === LISTACCOUNTS) {
-      return listAccounts(payload, BASE_URL, callback);
+      return listAccounts(payload, this.BASE_URL, callback);
     } else if (payload.action === FORGOTPASSWORD) {
-      return forgotPassword(payload, BASE_URL, callback);
+      return forgotPassword(payload, this.BASE_URL, callback);
     } else if (payload.action === RESETPASSWORD) {
-      return resetPassword(payload, BASE_URL, callback);
+      return resetPassword(payload, this.BASE_URL, callback);
     } else if (payload.action === CHANGEPASSWORD) {
-      return changePassword(payload, BASE_URL, callback);
+      return changePassword(payload, this.BASE_URL, callback);
     } else if (payload.action === DELETEACCOUNT) {
-      return deleteAccount(payload, BASE_URL, callback);
+      return deleteAccount(payload, this.BASE_URL, callback);
     } else if(payload.action === GET_GOOGLE_SIGNIN_URL){
-      return getGoogleSigninUrl(BASE_URL, callback);
+      return getGoogleSigninUrl(this.BASE_URL, callback);
     } else if(payload.action === GOOGLE_SIGNUP){
-      return googleSignin(payload, BASE_URL, callback);
+      return googleSignin(payload, this.BASE_URL, callback);
     } else {
       return callback(new HttpErrors.BadRequest('Invalid Action.', { expose: false }));
     }
@@ -252,7 +254,17 @@ const deleteAccount = function (payload, BASE_URL, callback) {
   }
 }
 
-const deleteAccount = function (payload, BASE_URL, callback) {
+const getGoogleSigninUrl = (BASE_URL, callback) => {
+  const url = `${BASE_URL}/authAccounts/googleSignInUrl`;
+  axios.get(url).then(response => {
+    return callback(null, response);
+  }).catch((error) => {
+    let json = CircularJSON.stringify(error);
+    return callback(json);
+  });
+}
+
+const googleSignin = (payload, BASE_URL, callback) => {
   if (!isJson(payload)) {
     return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
   } else {
@@ -260,45 +272,16 @@ const deleteAccount = function (payload, BASE_URL, callback) {
     if (!isJson(payload)) {
       return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
     } else {
-      const url = `${BASE_URL}/authAccounts/unregister`;
-      axios.post(url, payload).then(response => {
-        return callback(response);
-      }).catch((error) => {
-        let json = CircularJSON.stringify(error);
-        return callback(json);
-      });
-    }
-  }
-}
-
-const getGoogleSigninUrl = (BASE_URL, cb) => {
-  const url = `${BASE_URL}/authAccounts/googleSignInUrl`;
-  axios.get(url).then(response => {
-    return callback(response);
-  }).catch((error) => {
-    let json = CircularJSON.stringify(error);
-    return cb(json);
-  });
-}
-
-const googleSignin = (payload, BASE_URL, cb) => {
-  if (!isJson(payload)) {
-    return cb(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
-  } else {
-    payload = payload.meta;
-    if (!isJson(payload)) {
-      return cb(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
-    } else {
       const url = `${BASE_URL}/authAccounts/googleSignIn`;
       const queryParams = Object.keys(payload).map(
         key => `${key}=${payload[key]}`
       ).join('&');
 
       axios.get(`${url}?${queryParams}`).then(response => {
-        return cb(response);
+        return callback(null, response);
       }).catch((error) => {
         let json = CircularJSON.stringify(error);
-        return cb(json);
+        return callback(json);
       });
     }
   }
