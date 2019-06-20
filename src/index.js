@@ -63,7 +63,7 @@ function authModule(BASE_URL) {
     } else if (payload.action === DELETEACCOUNT) {
       return deleteAccount(payload, this.BASE_URL, callback);
     } else if(payload.action === GET_GOOGLE_SIGNIN_URL){
-      return getGoogleSigninUrl(this.BASE_URL, callback);
+      return getGoogleSigninUrl(payload, this.BASE_URL, callback);
     } else if(payload.action === GOOGLE_SIGNUP){
       return googleSignin(payload, this.BASE_URL, callback);
     } else {
@@ -254,9 +254,15 @@ const deleteAccount = function (payload, BASE_URL, callback) {
   }
 }
 
-const getGoogleSigninUrl = (BASE_URL, callback) => {
+const getGoogleSigninUrl = (payload, BASE_URL, callback) => {
+  payload = payload.meta;
+
   const url = `${BASE_URL}/authAccounts/googleSignInUrl`;
-  axios.get(url).then(response => {
+  const queryParams = Object.keys(payload).map(
+    key => `${key}=${payload[key]}`
+  ).join('&');
+  
+  axios.get(`${url}?${queryParams}`).then(response => {
     return callback(null, response);
   }).catch((error) => {
     let json = CircularJSON.stringify(error);
