@@ -255,7 +255,7 @@ const deleteAccount = function (payload, BASE_URL, callback) {
 }
 
 const getGoogleSigninUrl = (payload, BASE_URL, callback) => {
-  payload = payload.meta;
+  payload = payload.meta || {};
 
   const url = `${BASE_URL}/authAccounts/googleSignInUrl`;
   const queryParams = Object.keys(payload).map(
