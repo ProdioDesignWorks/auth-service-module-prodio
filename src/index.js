@@ -263,7 +263,7 @@ const getGoogleSigninUrl = (payload, BASE_URL, callback) => {
   ).join('&');
   
   axios.get(`${url}?${queryParams}`).then(response => {
-    return callback(null, response);
+    return callback(response);
   }).catch((error) => {
     let json = CircularJSON.stringify(error);
     return callback(json);
@@ -284,7 +284,7 @@ const googleSignin = (payload, BASE_URL, callback) => {
       ).join('&');
 
       axios.get(`${url}?${queryParams}`).then(response => {
-        return callback(null, response);
+        return callback(response);
       }).catch((error) => {
         let json = CircularJSON.stringify(error);
         return callback(json);
