@@ -1,6 +1,6 @@
 {
   "name": "auth-service-module-prodio",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "NPM for consuming prodio auth service",
   "main": "lib/index.js",
   "scripts": {
