@@ -63,10 +63,12 @@ function authModule(BASE_URL) {
     } else if (payload.action === DELETEACCOUNT) {
       return deleteAccount(payload, this.BASE_URL, callback);
     } else if(payload.action === GET_GOOGLE_SIGNIN_URL){
-      return getGoogleSigninUrl(this.BASE_URL, callback);
+      return getGoogleSigninUrl(payload, this.BASE_URL, callback);
     } else if(payload.action === GOOGLE_SIGNUP){
       return googleSignin(payload, this.BASE_URL, callback);
-    } else {
+   }else if(payload.action === GOOGLE_ACCOUNT_LINK_EMAIL){
+  return googleAccountLinkEmail(payload, this.BASE_URL, callback);
+ } else {
       return callback(new HttpErrors.BadRequest('Invalid Action.', { expose: false }));
     }
   };
@@ -254,10 +256,16 @@ const deleteAccount = function (payload, BASE_URL, callback) {
   }
 }
 
-const getGoogleSigninUrl = (BASE_URL, callback) => {
+const getGoogleSigninUrl = (payload, BASE_URL, callback) => {
+  payload = payload.meta || {};
+
   const url = `${BASE_URL}/authAccounts/googleSignInUrl`;
-  axios.get(url).then(response => {
-    return callback(null, response);
+  const queryParams = Object.keys(payload).map(
+    key => `${key}=${payload[key]}`
+  ).join('&');
+  
+  axios.get(`${url}?${queryParams}`).then(response => {
+    return callback(response);
   }).catch((error) => {
     let json = CircularJSON.stringify(error);
     return callback(json);
@@ -278,7 +286,25 @@ const googleSignin = (payload, BASE_URL, callback) => {
       ).join('&');
 
       axios.get(`${url}?${queryParams}`).then(response => {
-        return callback(null, response);
+        return callback(response);
+      }).catch((error) => {
+        let json = CircularJSON.stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+const googleAccountLinkEmail = (payload, BASE_URL, callback) => {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/authAccounts/googleAccountLinkEmail`;
+      axios.post(url, payload).then(response => {
+        return callback(response);
       }).catch((error) => {
         let json = CircularJSON.stringify(error);
         return callback(json);
